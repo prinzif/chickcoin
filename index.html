@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CHICKCOIN 🐥</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #bfdbfe;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contract-address {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contract-address:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .contract-label {
+            color: #fbbf24;
+            font-size: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .address-text {
+            color: white;
+            font-size: 0.6rem;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        .header {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fbbf24;
+            padding: 0.75rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .title {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 0.7rem;
+            margin: 0.75rem 0;
+            color: #fff;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fbbf24;
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0.75rem 0;
+            flex-wrap: wrap;
+            padding: 0 0.5rem;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.7rem 0.8rem;
+            border: 2px solid #fbbf24;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+        }
+
+        .social-link:hover {
+            background-color: #fbbf24;
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        #container {
+            flex: 1;
+            width: 100%;
+            background-color: #bfdbfe;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #chicken {
+            position: absolute;
+            top: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            width: 10rem;
+            height: 10rem;
+            touch-action: manipulation;
+        }
+
+        .chicken-body {
+            width: 10rem;
+            height: 10rem;
+            background-color: #fbbf24;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .beak {
+            position: absolute;
+            top: 3.75rem;
+            left: 8.75rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #f97316;
+            transform: rotate(45deg);
+        }
+
+        .eye {
+            position: absolute;
+            top: 2.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: black;
+            border-radius: 50%;
+        }
+
+        .eye-left {
+            left: 2.5rem;
+        }
+
+        .eye-right {
+            left: 6.25rem;
+        }
+
+        .comb {
+            position: absolute;
+            top: -1.25rem;
+            left: 3.75rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #ef4444;
+        }
+
+        .egg {
+            position: absolute;
+            font-size: 40px;
+            line-height: 1;
+            user-select: none;
+            touch-action: none;
+        }
+        .stats {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 0.75rem;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.6rem;
+            }
+
+            .social-link {
+                font-size: 0.6rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            #chicken {
+                width: 8rem;
+                height: 8rem;
+            }
+
+            .chicken-body {
+                width: 8rem;
+                height: 8rem;
+            }
+
+            .beak {
+                top: 3rem;
+                left: 7rem;
+                width: 2rem;
+                height: 2rem;
+            }
+
+            .eye {
+                top: 2rem;
+                width: 1rem;
+                height: 1rem;
+            }
+
+            .eye-left {
+                left: 2rem;
+            }
+
+            .eye-right {
+                left: 5rem;
+            }
+
+            .comb {
+                top: -1rem;
+                left: 3rem;
+                width: 2rem;
+                height: 2rem;
+            }
+
+            .egg {
+                font-size: 30px;
+            }
+        }
+
+        @keyframes squish {
+            0% { transform: translateX(-50%) scale(1.1, 1); }
+            50% { transform: translateX(-50%) scale(1, 0.9); }
+            100% { transform: translateX(-50%) scale(1.1, 1); }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-50%) rotate(-3deg); }
+            75% { transform: translateX(-50%) rotate(3deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
+        }
+
+        .squish {
+            animation: squish 0.1s ease-in-out;
+        }
+
+        .shake {
+            animation: shake 0.1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">CHICKCOIN</h1>
+        <p class="subtitle">First Memecoin Based on Chicken Game 🐣</p>
+        <div class="social-links">
+            <a href="https://twitter.com/chickcoin" target="_blank" class="social-link">Twitter</a>
+            <a href="https://t.me/chickcoin" target="_blank" class="social-link">Telegram</a>
+            <a href="https://t.me/chickcoin" target="_blank" class="social-link">Pumpfun</a>
+        </div>
+        <div class="contract-address" onclick="copyAddress()">
+            <div class="contract-label">CONTRACT ADDRESS:</div>
+            <div class="address-text" id="contractAddress">TBA</div>
+        </div>
+    </header>
+    <div id="notification" class="notification">
+        Contract address copied!
+    </div>
+
+    <div id="container">
+        <div id="chicken" onclick="addEgg()">
+            <div class="chicken-body">
+                <div class="beak"></div>
+                <div class="eye eye-left"></div>
+                <div class="eye eye-right"></div>
+                <div class="comb"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <p>🥚 Eggs Created: <span id="eggCount">0</span></p>
+        <p>🚀 Market Cap: $<span id="marketCap">0</span></p>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const EGG_RADIUS = window.innerWidth <= 480 ? 15 : 25;
+        const RESTITUTION = 0.3;
+        const GRAVITY = 0.2;
+        const FRICTION = 0.95;
+        const INITIAL_VELOCITY = 5;
+
+        let eggs = [];
+        let animationFrame;
+        let eggCount = 0;
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        function copyAddress() {
+            const addressText = document.getElementById('contractAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                showNotification();
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        function createSparkles(x, y) {
+            for (let i = 0; i < 6; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                sparkle.style.transform = `rotate(${i * 60}deg) translateX(20px)`;
+                document.body.appendChild(sparkle);
+
+                sparkle.animate([
+                    { transform: 'scale(0) rotate(0deg)', opacity: 1 },
+                    { transform: 'scale(1) rotate(180deg)', opacity: 0 }
+                ], {
+                    duration: 300,
+                    easing: 'ease-out'
+                }).onfinish = () => sparkle.remove();
+            }
+        }
+
+        function formatMarketCap(count) {
+            return (count * 1337).toLocaleString();
+        }
+
+        function checkCollision(egg1, egg2) {
+            const dx = egg2.x - egg1.x;
+            const dy = egg2.y - egg1.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            return distance < EGG_RADIUS * 2;
+        }
+
+        function resolveCollision(egg1, egg2) {
+            const dx = egg2.x - egg1.x;
+            const dy = egg2.y - egg1.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            const nx = dx / distance;
+            const ny = dy / distance;
+
+            const rx = egg2.velX - egg1.velX;
+            const ry = egg2.velY - egg1.velY;
+
+            const velocityAlongNormal = rx * nx + ry * ny;
+
+            if (velocityAlongNormal > 0) return [egg1, egg2];
+
+            const j = -(1 + RESTITUTION) * velocityAlongNormal * 0.5;
+
+            const egg1VelX = egg1.velX - j * nx;
+            const egg1VelY = egg1.velY - j * ny;
+            const egg2VelX = egg2.velX + j * nx;
+            const egg2VelY = egg2.velY + j * ny;
+
+            const overlap = EGG_RADIUS * 2 - distance;
+            const separationX = (overlap * nx) / 2;
+            const separationY = (overlap * ny) / 2;
+
+            return [
+                {
+                    ...egg1,
+                    x: egg1.x - separationX,
+                    y: egg1.y - separationY,
+                    velX: egg1VelX * FRICTION,
+                    velY: egg1VelY * FRICTION
+                },
+                {
+                    ...egg2,
+                    x: egg2.x + separationX,
+                    y: egg2.y + separationY,
+                    velX: egg2VelX * FRICTION,
+                    velY: egg2VelY * FRICTION
+                }
+            ];
+        }
+
+        function updatePhysics() {
+            const containerRect = container.getBoundingClientRect();
+            
+            eggs = eggs.map(egg => {
+                const velY = egg.velY + GRAVITY;
+                let y = egg.y + velY;
+                let velX = egg.velX * FRICTION;
+                let x = egg.x + velX;
+
+                if (x < 0) {
+                    x = 0;
+                    velX = egg.velX * -0.5;
+                } else if (x > containerRect.width - EGG_RADIUS * 2) {
+                    x = containerRect.width - EGG_RADIUS * 2;
+                    velX = egg.velX * -0.5;
+                }
+
+                if (y > containerRect.height - EGG_RADIUS * 2) {
+                    y = containerRect.height - EGG_RADIUS * 2;
+                    return {
+                        ...egg,
+                        x,
+                        y,
+                        velX: velX * 0.95,
+                        velY: velY * -0.3
+                    };
+                }
+
+                return {
+                    ...egg,
+                    x,
+                    y,
+                    velX,
+                    velY
+                };
+            });
+
+            for (let i = 0; i < eggs.length; i++) {
+                for (let j = i + 1; j < eggs.length; j++) {
+                    if (checkCollision(eggs[i], eggs[j])) {
+                        const [newEgg1, newEgg2] = resolveCollision(eggs[i], eggs[j]);
+                        eggs[i] = newEgg1;
+                        eggs[j] = newEgg2;
+                    }
+                }
+            }
+
+            eggs.forEach(egg => {
+                const element = document.getElementById(`egg-${egg.id}`);
+                if (element) {
+                    element.style.transform = `translate(${egg.x}px, ${egg.y}px) rotate(${egg.rotation}deg)`;
+                }
+            });
+
+            animationFrame = requestAnimationFrame(updatePhysics);
+        }
+
+        function addEgg() {
+            const chicken = document.getElementById('chicken');
+            const chickenRect = chicken.getBoundingClientRect();
+            createSparkles(chickenRect.left + chickenRect.width / 2, chickenRect.top + chickenRect.height / 2);
+
+            chicken.classList.add('squish');
+            setTimeout(() => {
+                chicken.classList.remove('squish');
+                chicken.classList.add('shake');
+                setTimeout(() => {
+                    chicken.classList.remove('shake');
+                }, 100);
+            }, 100);
+
+            const containerRect = container.getBoundingClientRect();
+            const randomVelX = (Math.random() - 0.5) * INITIAL_VELOCITY;
+            const id = Date.now();
+            
+            const eggData = {
+                id,
+                x: containerRect.width / 2 - EGG_RADIUS,
+                y: 100,
+                velX: randomVelX,
+                velY: 0,
+                rotation: Math.random() * 360
+            };
+
+            const eggElement = document.createElement('div');
+            eggElement.id = `egg-${id}`;
+            eggElement.className = 'egg';
+            eggElement.textContent = '🥚';
+            eggElement.style.transform = `translate(${eggData.x}px, ${eggData.y}px) rotate(${eggData.rotation}deg)`;
+            container.appendChild(eggElement);
+
+            eggs.push(eggData);
+            eggCount++;
+            
+            document.getElementById('eggCount').textContent = eggCount;
+            document.getElementById('marketCap').textContent = formatMarketCap(eggCount);
+
+            if (!animationFrame) {
+                animationFrame = requestAnimationFrame(updatePhysics);
+            }
+        }
+    </script>
+</body>
+</html>
